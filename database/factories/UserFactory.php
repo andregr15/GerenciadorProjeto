@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(CodeProject\User::class, function (Faker $faker) {
+$factory->define(CodeProject\Entities\User::class, function (Faker $faker) {
     static $password;
 
     return [
