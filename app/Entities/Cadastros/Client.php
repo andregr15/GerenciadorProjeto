@@ -1,6 +1,6 @@
 <?php
 
-namespace CodeProject\Entities;
+namespace CodeProject\Entities\Cadastros;
 
 use Illuminate\Database\Eloquent\Model;
 

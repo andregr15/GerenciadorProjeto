@@ -176,6 +176,8 @@ return [
         // CodeProject\Providers\BroadcastServiceProvider::class,
         CodeProject\Providers\EventServiceProvider::class,
         CodeProject\Providers\RouteServiceProvider::class,
+        CodeProject\Providers\CodeProjectServiceProvider::class,
+        
         Prettus\Repository\Providers\RepositoryServiceProvider::class
 
     ],

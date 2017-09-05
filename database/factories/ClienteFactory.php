@@ -13,13 +13,13 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(CodeProject\Entities\User::class, function (Faker $faker) {
-    static $password;
-
-    return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+$factory->define(CodeProject\Entities\Cadastros\Client::class, function(Faker $faker){
+    return[
+        'nome'=>$faker->name,
+        'responsavel'=>$faker->firstName,
+        'email'=>$faker->unique()->freeEmail,
+        'telefone'=>$faker->phoneNumber,
+        'endereco'=>$faker->address,
+        'obs'=>$faker->sentence
     ];
 });
