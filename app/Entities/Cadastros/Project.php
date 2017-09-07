@@ -11,7 +11,9 @@ class Project extends Model
         'descricao',
         'progresso',
         'status',
-        'data_vencimento'
+        'data_vencimento',
+        'owner_id',
+        'client_id'
     ];
 
     public function dono(){
@@ -19,6 +21,6 @@ class Project extends Model
     }
 
     public function cliente(){
-        return $this->belongsTo('CodeProject\Entities\Cadastros\Client');
+        return $this->belongsTo('CodeProject\Entities\Cadastros\Client', 'client_id');
     }
 }

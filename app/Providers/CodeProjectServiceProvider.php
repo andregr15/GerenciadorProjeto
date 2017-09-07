@@ -28,5 +28,10 @@ class CodeProjectServiceProvider extends ServiceProvider
             \CodeProject\Repositories\Cadastros\ClientRepository::class, 
             \CodeProject\Repositories\Cadastros\ClientRepositoryEloquent::class
         );
+
+        $this->app->bind(
+            \CodeProject\Repositories\Cadastros\ProjectRepository::class,
+            \CodeProject\Repositories\Cadastros\ProjectRepositoryEloquent::class
+        );
     }
 }

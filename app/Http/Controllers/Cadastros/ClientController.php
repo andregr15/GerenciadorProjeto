@@ -5,7 +5,6 @@ namespace CodeProject\Http\Controllers\Cadastros;
 use CodeProject\Http\Controllers\Controller;
 use CodeProject\Services\ClientService;
 use Illuminate\Http\Request;
-use CodeProject\Repositories\Cadastros\ClientRepository;
 
 class ClientController extends Controller
 {
