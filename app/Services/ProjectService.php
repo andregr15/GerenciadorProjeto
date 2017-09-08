@@ -23,11 +23,28 @@ class ProjectService
     }
 
     public function all(){
-        return $this->repository->with('cliente')->with('dono')->all();
+        try {
+            return $this->repository->with('cliente')->with('dono')->all();
+        }
+        catch (\Exception $e) {
+            return [
+                'error'=>true,
+                'message'=> $e->getMessage()
+            ];
+        }
     }
 
     public function find($id){
-        return $this->repository->with('cliente')->with('dono')->find($id);
+        try {
+            return $this->repository->with('cliente')->with('dono')->find($id);
+        }catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'message'=>'Project não encontrado.'];
+        } catch (\Exception $e) {
+            return [
+                'error'=>true,
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe project cadatrado para o id '.$id : $e->getMessage()
+            ];
+        }
     }
 
     public function create(array $data){
@@ -42,12 +59,19 @@ class ProjectService
                 'message'=>$e->getMessageBag()
             ];
         }
+        catch (\Exception $e) {
+            return [
+                'error'=> true,
+                'message'=> $e->getMessage()
+            ];
+        }
     }
 
     public function update(array $data, $id){
         try{
             $this->validator->with($data)->passesOrFail();
-            return $this->repository->update($data, $id);
+            $this->repository->find($id)->fill($data)->save();
+            return ['sucess'=>true, 'message'=>'Project atualizado com sucesso!'];
         }
         catch(ValidatorException $e){
             return [
@@ -55,9 +79,28 @@ class ProjectService
                 'message'=>$e->getMessageBag()
             ];
         }
+        catch (\Exception $e) {
+            return [
+                'error'=>true,
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe client cadatrado para o id '.$id : $e->getMessage()
+            ];
+        }
     }
 
     public function delete($id){
-        return $this->repository->delete($id) == 1 ? ['success'=>true] : ['success'=>false];
+        try {
+            $this->repository->find($id)->delete();
+            return ['success' => true, 'message' => 'Project deletado com sucess!'] ;
+        }catch (ModelNotFoundException $e) {
+            return [
+                'error'=>true,
+                'message'=>'Project não encontrado.'
+            ];
+        } catch (\Exception $e) {
+            return [
+                'error'=>true,
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe project cadatrado para o id '.$id : $e->getMessage()
+            ];
+        }
     }
 }
