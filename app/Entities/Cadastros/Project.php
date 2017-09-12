@@ -21,6 +21,14 @@ class Project extends Model
     }
 
     public function cliente(){
-        return $this->belongsTo('CodeProject\Entities\Cadastros\Client', 'client_id');
+        return $this->belongsTo(Client::class, 'client_id');
+    }
+
+    public function notas(){
+        return $this->hasMany(ProjectNote::class);
+    }
+
+    public function tarefas(){
+        return $this->hasMany(ProjectTask::class);
     }
 }

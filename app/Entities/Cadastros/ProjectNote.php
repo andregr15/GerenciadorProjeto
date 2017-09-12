@@ -12,4 +12,8 @@ class ProjectNote extends Model
         'titulo',
         'nota'
     ];
+
+    public function project(){
+        return $this->belongsTo(Project::class);
+    }
 }

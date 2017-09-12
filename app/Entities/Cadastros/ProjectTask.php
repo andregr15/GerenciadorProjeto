@@ -14,4 +14,8 @@ class ProjectTask extends Model
         'data_vencimento',
         'status'
     ];
+
+    public function project(){
+        return $this->belongsTo(Project::class);
+    }
 }
