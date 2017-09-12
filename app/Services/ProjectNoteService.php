@@ -23,13 +23,13 @@ class ProjectNoteService
      */
     private $validator;
 
-    public function __construct(ProjectNoteRepository $repository, ProjectNoteValidator $validator){
+    function __construct(ProjectNoteRepository $repository, ProjectNoteValidator $validator){
 
         $this->repository = $repository;
         $this->validator = $validator;
     }
 
-    public function showAll($projectId){
+    function showAll($projectId){
         try{
             return $this->repository->findWhere(['project_id'=>$projectId]);
         }
@@ -41,7 +41,7 @@ class ProjectNoteService
         }
     }
 
-    public function show($projectId, $id){
+    function show($projectId, $id){
         try{
             return $this->repository->findWhere(['project_id'=>$projectId, 'id'=>$id]);
         }
@@ -53,7 +53,7 @@ class ProjectNoteService
         }
     }
 
-    public function create(array $data){
+    function create(array $data){
         try{
             $this->validator->with($data)->passesOrFail();
             return $this->repository->create($data);
@@ -65,7 +65,7 @@ class ProjectNoteService
         }
     }
 
-     public function update(array $data, $id){
+     function update(array $data, $id){
         try{
             $this->validator->with($data)->passesOrFail();
             $this->repository->find($id)->fill($data)->save();
@@ -73,19 +73,19 @@ class ProjectNoteService
         }catch(\Exception $e){
             return [
                 'error'=>true,
-                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe client cadatrado para o id '.$id : $e->getMessage()
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe nota cadatrada com o id '.$id : $e->getMessage()
             ];
         }
     }
 
-    public function delete($id){
+    function delete($id){
         try{
             $this->repository->find($id)->delete();
             return ['success'=>true, 'message'=>'Nota deletada com sucesso!'];
         }catch(\Exception $e){
             return [
                 'error'=>true,
-                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe client cadatrado para o id '.$id : $e->getMessage()
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe nota cadatrada com o id '.$id : $e->getMessage()
             ];
         }
     }

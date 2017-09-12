@@ -10,6 +10,7 @@ namespace CodeProject\Repositories\Cadastros;
 
 
 use Prettus\Repository\Eloquent\BaseRepository;
+use CodeProject\Entities\Cadastros\ProjectTask;
 
 class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTaskRepository
 {
