@@ -14,7 +14,7 @@ use CodeProject\Entities\Cadastros\ProjectNote;
 
 class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNoteRepository
 {
-    function model(){
+    public function model(){
         return ProjectNote::class;
     }
 }

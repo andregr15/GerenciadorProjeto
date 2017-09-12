@@ -26,6 +26,16 @@ Route::put('/client/{id}', 'Cadastros\ClientController@update');
 Route::delete('/client/{id}', 'Cadastros\ClientController@destroy');
 
 /**
+ * Notas Projecto
+ */
+
+Route::get('/project/{projectId}/notas', 'Cadastros\ProjectNoteController@showAll');
+Route::get('/project/{projectId}/notas/{id}', 'Cadastros\ProjectNoteController@show');
+Route::post('/project/{projectId}/notas', 'Cadastros\ProjectNoteController@create');
+Route::put('/project/{projectId}/notas/{id}', 'Cadastros\ProjectNoteController@update');
+Route::delete('/project/{projectId}/notas/{id}', 'Cadastros\ProjectNoteController@delete');
+
+/**
  * Projeto
  */
 

@@ -13,7 +13,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTaskRepository
 {
-    function model(){
+    public function model(){
         return ProjectTask::class;
     }
 }
