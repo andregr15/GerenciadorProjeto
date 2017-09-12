@@ -31,4 +31,8 @@ class Project extends Model
     public function tarefas(){
         return $this->hasMany(ProjectTask::class);
     }
+
+    public function membros(){
+        return $this->belongsToMany('CodeProject\Entities\User', 'project_members');
+    }
 }

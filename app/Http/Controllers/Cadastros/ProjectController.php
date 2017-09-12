@@ -34,4 +34,8 @@ class ProjectController extends Controller
     public function destroy($id){
         return $this->service->delete($id);
     }
+
+    public function member($id, $memberId){
+        return $this->service->isMember($id, $memberId);
+    }
 }

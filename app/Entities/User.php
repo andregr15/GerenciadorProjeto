@@ -26,4 +26,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function projetos(){
+        return $this->belongsToMany('CodeProject\Entities\Cadastros\Project', 'project_members');
+    }
 }

@@ -24,7 +24,7 @@ class ProjectService
 
     public function all(){
         try {
-            return $this->repository->with('cliente')->with('dono')->all();
+            return $this->repository->with('cliente')->with('dono')->with('membros')->all();
         }
         catch (\Exception $e) {
             return [
@@ -36,7 +36,7 @@ class ProjectService
 
     public function find($id){
         try {
-            return $this->repository->with('cliente')->with('dono')->find($id);
+            return $this->repository->with('cliente')->with('dono')->with('membros')->find($id);
         }catch (ModelNotFoundException $e) {
             return ['error'=>true, 'message'=>'Project não encontrado.'];
         } catch (\Exception $e) {
@@ -96,6 +96,49 @@ class ProjectService
                 'error'=>true,
                 'message'=>'Project não encontrado.'
             ];
+        } catch (\Exception $e) {
+            return [
+                'error'=>true,
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe project cadatrado para o id '.$id : $e->getMessage()
+            ];
+        }
+    }
+
+    function addMember(){
+        try {
+
+        }catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'message'=>'Project não encontrado.'];
+        } catch (\Exception $e) {
+            return [
+                'error'=>true,
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe project cadatrado para o id '.$id : $e->getMessage()
+            ];
+        }
+    }
+
+    function removeMember(){
+        try {
+
+        }catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'message'=>'Project não encontrado.'];
+        } catch (\Exception $e) {
+            return [
+                'error'=>true,
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe project cadatrado para o id '.$id : $e->getMessage()
+            ];
+        }
+    }
+
+    function isMember($id, $memberId){
+        try {
+            $isMember = count(
+                $this->repository->whereHas('membros', function ($query) use ($id, $memberId) {
+                    $query->where(['user_id'=>$memberId, 'project_id'=>$id]);
+            })->all()) > 0;
+            return ['isMember'=>$isMember];
+        }catch (ModelNotFoundException $e) {
+            return ['error'=>true, 'message'=>'Project não encontrado.'];
         } catch (\Exception $e) {
             return [
                 'error'=>true,
