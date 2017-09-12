@@ -132,11 +132,13 @@ class ProjectService
 
     function isMember($id, $memberId){
         try {
-            $isMember = count(
-                $this->repository->whereHas('membros', function ($query) use ($id, $memberId) {
-                    $query->where(['user_id'=>$memberId, 'project_id'=>$id]);
-            })->all()) > 0;
-            return ['isMember'=>$isMember];
+                $isMember = count(
+                    $this->repository->whereHas('membros', function ($query) use ($id, $memberId) {
+                            $query->where(['user_id'=>$memberId, 'project_id'=>$id]);
+                            }
+                        )->all()
+                    ) > 0;
+                return ['isMember'=>$isMember];
         }catch (ModelNotFoundException $e) {
             return ['error'=>true, 'message'=>'Project não encontrado.'];
         } catch (\Exception $e) {
