@@ -46,7 +46,10 @@ Route::put('/project/{projectId}/tasks/{id}', 'Cadastros\ProjectTaskController@u
 Route::delete('/project/{projectId}/tasks/{id}', 'Cadastros\ProjectTaskController@delete');
 
 
-Route::get('/project/{id}/member/{member}', 'Cadastros\ProjectController@member');
+Route::get('/project/{id}/member', 'Cadastros\ProjectController@showMembers');
+Route::get('/project/{id}/member/{memberId}', 'Cadastros\ProjectController@isMember');
+Route::post('/project/{id}/member', 'Cadastros\ProjectController@addMember');
+Route::delete('/project/{id}/member/{memberId}', 'Cadastros\ProjectController@removeMember');
 
 /**
  * Projeto

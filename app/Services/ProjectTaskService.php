@@ -10,6 +10,7 @@ namespace CodeProject\Services;
 
 use CodeProject\Repositories\Cadastros\ProjectTaskRepository;
 use CodeProject\Validators\ProjectTaskValidator;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class ProjectTaskService
 {
@@ -57,6 +58,11 @@ class ProjectTaskService
         try{
             $this->validator->with($data)->passesOrFail();
             return $this->repository->create($data);
+        } catch(ValidatorException $e){
+            return [
+                'error'=>true,
+                'message'=>$e->getMessageBag()
+            ];
         } catch (\Exception $e) {
             return [
                 'error'=>true,
@@ -69,8 +75,13 @@ class ProjectTaskService
         try{
             $this->validator->with($data)->passesOrFail();
             $this->repository->find($id)->fill($data)->save();
-            return ['success'=>true, 'message' => 'Nota atualizada com sucesso!'];
-        }catch(\Exception $e){
+            return ['success'=>true, 'message' => 'Tarefa atualizada com sucesso!'];
+        } catch(ValidatorException $e){
+            return [
+                'error'=>true,
+                'message'=>$e->getMessageBag()
+            ];
+        } catch(\Exception $e){
             return [
                 'error'=>true,
                 'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe tarefa cadatrada com o id '.$id : $e->getMessage()
@@ -81,7 +92,7 @@ class ProjectTaskService
     function delete($id){
         try{
             $this->repository->find($id)->delete();
-            return ['success'=>true, 'message'=>'Nota deletada com sucesso!'];
+            return ['success'=>true, 'message'=>'Tarefa deletada com sucesso!'];
         }catch(\Exception $e){
             return [
                 'error'=>true,

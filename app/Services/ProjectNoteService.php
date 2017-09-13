@@ -10,6 +10,7 @@ namespace CodeProject\Services;
 
 use CodeProject\Repositories\Cadastros\ProjectnoteRepository;
 use CodeProject\Validators\ProjectNoteValidator;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 
 class ProjectNoteService
@@ -57,6 +58,11 @@ class ProjectNoteService
         try{
             $this->validator->with($data)->passesOrFail();
             return $this->repository->create($data);
+        } catch(ValidatorException $e){
+            return [
+                'error'=>true,
+                'message'=>$e->getMessageBag()
+            ];
         } catch (\Exception $e) {
             return [
                 'error'=>true,
@@ -70,10 +76,15 @@ class ProjectNoteService
             $this->validator->with($data)->passesOrFail();
             $this->repository->find($id)->fill($data)->save();
             return ['success'=>true, 'message' => 'Nota atualizada com sucesso!'];
-        }catch(\Exception $e){
+        } catch(ValidatorException $e){
             return [
                 'error'=>true,
-                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe nota cadatrada com o id '.$id : $e->getMessage()
+                'message'=>$e->getMessageBag()
+            ];
+        } catch(\Exception $e){
+            return [
+                'error'=>true,
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe nota cadatrada(o) com o id '.$id : $e->getMessage()
             ];
         }
     }
