@@ -19,7 +19,7 @@ Route::get('/', function () {
  * Cliente
  */
 
-Route::get('/client', 'Cadastros\ClientController@index');
+Route::middleware('client_credentials')->get('/client', 'Cadastros\ClientController@index');
 Route::get('/client/{id}', 'Cadastros\ClientController@show');
 Route::post('/client', 'Cadastros\ClientController@store');
 Route::put('/client/{id}', 'Cadastros\ClientController@update');
@@ -55,9 +55,6 @@ Route::delete('/project/{id}/member/{memberId}', 'Cadastros\ProjectController@re
  * Projeto
  */
 
-
-
-
 Route::get('/project', 'Cadastros\ProjectController@index');
 Route::get('/project/{id}', 'Cadastros\ProjectController@show');
 Route::post('/project', 'Cadastros\ProjectController@store');
@@ -65,3 +62,7 @@ Route::put('/project/{id}', 'Cadastros\ProjectController@update');
 Route::delete('/project/{id}', 'Cadastros\ProjectController@destroy');
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

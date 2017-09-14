@@ -17,6 +17,7 @@ class ProjectService
      * @var ProjectValidator
      */
     private $validator;
+
     /**
      * @var UserRepository
      */
@@ -114,7 +115,7 @@ class ProjectService
         try {
             if(!is_int($memberId) || $memberId < 1)
                 return ['error'=>true, 'message'=>'Campo memberId deve ser um número interiro positivo!'];
-            
+
             $member = $this->userRepository->find($memberId);
             $this->repository->with('membros')->find($id)->membros()->attach($member);
             return ['success'=>true, 'message'=>'Membro adicionado com sucesso!'];
