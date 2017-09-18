@@ -5,6 +5,7 @@ namespace CodeProject\Http\Controllers\Cadastros;
 use Illuminate\Http\Request;
 use CodeProject\Http\Controllers\Controller;
 use CodeProject\Services\ProjectService;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -15,15 +16,14 @@ class ProjectController extends Controller
     }
 
     public function index(){
-        return $this->service->all();
+        return $this->service->all(Auth::user()->getAuthIdentifier());
     }
 
     public function show($id){
         return $this->service->find($id);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         return $this->service->create($request->all());
     }
 

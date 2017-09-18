@@ -23,17 +23,8 @@ Route::middleware('auth:api')->group( function() {
     /**
      * Cliente
      */
-    Route::prefix('/client')->group(function(){
-        Route::get('/', 'Cadastros\ClientController@index');
-        Route::get('/{id}', 'Cadastros\ClientController@show');
-        Route::post('/', 'Cadastros\ClientController@store');
-        Route::put('/{id}', 'Cadastros\ClientController@update');
-        Route::delete('/{id}', 'Cadastros\ClientController@destroy');
-    });
+    Route::resource('client', 'Cadastros\ClientController', ['except'=> ['create', 'edit']]);
 
-    /**
-     * Projeto
-     */
     Route::prefix('/project')->group(function(){
 
         /**
@@ -61,19 +52,20 @@ Route::middleware('auth:api')->group( function() {
         Route::get('/{id}/member/{memberId}', 'Cadastros\ProjectController@isMember');
         Route::post('/{id}/member', 'Cadastros\ProjectController@addMember');
         Route::delete('/{id}/member/{memberId}', 'Cadastros\ProjectController@removeMember');
-
-        /**
-         * Projeto
-         */
-        Route::get('/', 'Cadastros\ProjectController@index');
-        Route::get('/{id}', 'Cadastros\ProjectController@show');
-        Route::post('/', 'Cadastros\ProjectController@store');
-        Route::put('/{id}', 'Cadastros\ProjectController@update');
-        Route::delete('/{id}', 'Cadastros\ProjectController@destroy');
     });
 
+    /**
+     * Projeto
+     */
+    Route::middleware('checkProjectOwner')->group(function(){
+        Route::resource('/project', 'Cadastros\ProjectController', ['except' => ['create', 'edit', 'index', 'update', 'show']]);
+    });
 
+    Route::middleware('checkProjectMember', 'checkProjectOwner')->group(function(){
+        Route::resource('/project', 'Cadastros\ProjectController', ['except' => ['create', 'edit', 'destroy', 'store']]);
+    });
 
+    Route::get('/project', 'Cadastros\ProjectController@index');
 });
 
 

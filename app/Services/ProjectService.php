@@ -29,9 +29,9 @@ class ProjectService
         $this->userRepository = $userRepository;
     }
 
-    public function all(){
+    public function all($userId){
         try {
-            return $this->repository->with('cliente')->with('dono')->with('membros')->all();
+            return $this->repository->with('cliente')->with('dono')->with('membros')->findWhere(['owner_id'=>$userId]);
         }
         catch (\Exception $e) {
             return [
@@ -161,13 +161,12 @@ class ProjectService
 
     function isMember($id, $memberId){
         try {
-                $isMember = count(
+                return count(
                     $this->repository->whereHas('membros', function ($query) use ($id, $memberId) {
                             $query->where(['user_id'=>$memberId, 'project_id'=>$id]);
                             }
                         )->all()
                     ) > 0;
-                return ['isMember'=>$isMember];
         }catch (ModelNotFoundException $e) {
             return ['error'=>true, 'message'=>'Project não encontrado.'];
         } catch (\Exception $e) {
@@ -180,10 +179,7 @@ class ProjectService
 
     function isOwner($projectId, $userId){
         try {
-            if($this->repository->findWhere(['owner_id' => $userId, 'project_id' => $projectId]))
-                return true;
-
-            return false;
+            return count($this->repository->findWhere(['owner_id' => $userId, 'id' => $projectId])) > 0;
         } catch (\Exception $e) {
             return [
                 'error'=>true,
