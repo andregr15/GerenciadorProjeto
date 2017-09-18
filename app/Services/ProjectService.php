@@ -177,4 +177,18 @@ class ProjectService
             ];
         }
     }
+
+    function isOwner($projectId, $userId){
+        try {
+            if($this->repository->findWhere(['owner_id' => $userId, 'project_id' => $projectId]))
+                return true;
+
+            return false;
+        } catch (\Exception $e) {
+            return [
+                'error'=>true,
+                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe project ou usuário cadatrado para o id '.$userId : $e->getMessage()
+            ];
+        }
+    }
 }
