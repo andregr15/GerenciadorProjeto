@@ -59,6 +59,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'client_credentials' => \Laravel\Passport\Http\Middleware\CheckClientCredentials::class,
         'checkProjectOwner' => \CodeProject\Http\Middleware\CheckProjectOwner::class,
-        'checkProjectMember' => \CodeProject\Http\Middleware\CheckProjectMember::class,
+        'checkProjectMemberOwner' => \CodeProject\Http\Middleware\CheckProjectMember::class,
     ];
 }

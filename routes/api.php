@@ -61,7 +61,7 @@ Route::middleware('auth:api')->group( function() {
         Route::resource('/project', 'Cadastros\ProjectController', ['except' => ['create', 'edit', 'index', 'update', 'show']]);
     });
 
-    Route::middleware('checkProjectMember', 'checkProjectOwner')->group(function(){
+    Route::middleware('checkProjectMemberOwner')->group(function(){
         Route::resource('/project', 'Cadastros\ProjectController', ['except' => ['create', 'edit', 'destroy', 'store']]);
     });
 

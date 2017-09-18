@@ -3,6 +3,7 @@
 namespace CodeProject\Repositories\Cadastros;
 
 
+use CodeProject\Presenters\ProjectPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use CodeProject\Entities\Cadastros\Project;
 
@@ -11,4 +12,9 @@ class ProjectRepositoryEloquent extends BaseRepository implements ProjectReposit
     public function model(){
         return Project::class;
     }
+
+    public function presenter(){
+        return ProjectPresenter::class;
+    }
+
 }

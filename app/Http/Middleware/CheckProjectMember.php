@@ -5,6 +5,7 @@ namespace CodeProject\Http\Middleware;
 use Closure;
 use CodeProject\Services\ProjectService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Response;
 
 class CheckProjectMember
 {
