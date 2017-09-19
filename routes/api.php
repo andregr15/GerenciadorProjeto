@@ -25,35 +25,6 @@ Route::middleware('auth:api')->group( function() {
      */
     Route::resource('client', 'Cadastros\ClientController', ['except'=> ['create', 'edit']]);
 
-    Route::prefix('/project')->group(function(){
-
-        /**
-         * Notas Projeto
-         */
-        Route::get('/{projectId}/notes', 'Cadastros\ProjectNoteController@showAll');
-        Route::get('/{projectId}/notes/{id}', 'Cadastros\ProjectNoteController@show');
-        Route::post('/{projectId}/notes', 'Cadastros\ProjectNoteController@create');
-        Route::put('/{projectId}/notes/{id}', 'Cadastros\ProjectNoteController@update');
-        Route::delete('/{projectId}/notes/{id}', 'Cadastros\ProjectNoteController@delete');
-
-        /**
-         * Tarefas Projeto
-         */
-        Route::get('/{projectId}/tasks', 'Cadastros\ProjectTaskController@showAll');
-        Route::get('/{projectId}/tasks/{id}', 'Cadastros\ProjectTaskController@show');
-        Route::post('/{projectId}/tasks', 'Cadastros\ProjectTaskController@create');
-        Route::put('/{projectId}/tasks/{id}', 'Cadastros\ProjectTaskController@update');
-        Route::delete('/{projectId}/tasks/{id}', 'Cadastros\ProjectTaskController@delete');
-
-        /**
-         * Membros Projeto
-         */
-        Route::get('/{id}/member', 'Cadastros\ProjectController@showMembers');
-        Route::get('/{id}/member/{memberId}', 'Cadastros\ProjectController@isMember');
-        Route::post('/{id}/member', 'Cadastros\ProjectController@addMember');
-        Route::delete('/{id}/member/{memberId}', 'Cadastros\ProjectController@removeMember');
-    });
-
     /**
      * Projeto
      */
@@ -63,6 +34,42 @@ Route::middleware('auth:api')->group( function() {
 
     Route::middleware('checkProjectMemberOwner')->group(function(){
         Route::resource('/project', 'Cadastros\ProjectController', ['except' => ['create', 'edit', 'destroy', 'store']]);
+
+        Route::prefix('/project')->group(function(){
+
+            /**
+             * Notas Projeto
+             */
+            Route::get('/{projectId}/notes', 'Cadastros\ProjectNoteController@showAll');
+            Route::get('/{projectId}/notes/{noteId}', 'Cadastros\ProjectNoteController@show');
+            Route::post('/{projectId}/notes', 'Cadastros\ProjectNoteController@create');
+            Route::put('/{projectId}/notes/{noteId}', 'Cadastros\ProjectNoteController@update');
+            Route::delete('/{projectId}/notes/{noteId}', 'Cadastros\ProjectNoteController@destroy');
+
+            /**
+             * Tarefas Projeto
+             */
+            Route::get('/{projectId}/tasks', 'Cadastros\ProjectTaskController@showAll');
+            Route::get('/{projectId}/tasks/{taskId}', 'Cadastros\ProjectTaskController@show');
+            Route::post('/{projectId}/tasks', 'Cadastros\ProjectTaskController@create');
+            Route::put('/{projectId}/tasks/{taskId}', 'Cadastros\ProjectTaskController@update');
+            Route::delete('/{projectId}/tasks/{taskId}', 'Cadastros\ProjectTaskController@destroy');
+
+            /**
+             * Membros Projeto
+             */
+            Route::get('/{projectId}/members', 'Cadastros\ProjectController@showMembers');
+            Route::get('/{projectId}/members/{memberId}', 'Cadastros\ProjectController@isMember');
+            Route::post('/{projectId}/members', 'Cadastros\ProjectController@addMember');
+            Route::delete('/{projectId}/members/{memberId}', 'Cadastros\ProjectController@removeMember');
+
+            /**
+             * Arquivos Projeto
+             */
+            Route::get('/{projectId}/files', 'Cadastros\ProjectFileController@index');
+            Route::post('/{projectId}/files', 'Cadastros\ProjectFileController@store');
+            Route::delete('/{projectId}/files/{fileId}', 'Cadastros\ProjectFileController@destroy');
+        });
     });
 
     Route::get('/project', 'Cadastros\ProjectController@index');

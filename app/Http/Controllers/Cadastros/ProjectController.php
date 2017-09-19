@@ -32,22 +32,22 @@ class ProjectController extends Controller
     }
 
     public function destroy($id){
-        return $this->service->delete($id);
+        return $this->service->destroy($id);
     }
 
     public function showMembers($id){
         return $this->service->showMembers($id);
     }
 
-    public function isMember($id, $memberId){
-        return $this->service->isMember($id, $memberId);
+    public function isMember($projectId, $memberId){
+        return ['isMember'=>$this->service->isMember($projectId, $memberId)];
     }
 
-    public function addMember(Request $request, $id){
-        return $this->service->addMember($id, $request->get('memberId'));
+    public function addMember(Request $request, $projectId){
+        return $this->service->addMember($projectId, $request->get('memberId'));
     }
 
-    public function removeMember($id, $memberId){
-        return $this->service->removeMember($id, $memberId);
+    public function removeMember($projectId, $memberId){
+        return $this->service->removeMember($projectId, $memberId);
     }
 }

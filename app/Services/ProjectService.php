@@ -94,7 +94,7 @@ class ProjectService
         }
     }
 
-    public function delete($id){
+    public function destroy($id){
         try {
             $this->repository->skipPresenter()->find($id)->delete();
             return ['success' => true, 'message' => 'Project deletado com sucess!'] ;
@@ -104,20 +104,27 @@ class ProjectService
                 'message'=>'Project não encontrado.'
             ];
         } catch (\Exception $e) {
+            $message = $e->getMessage();
+            if(strpos($message, "No query results for model") !==false){
+                $message = 'Não existe project cadatrado para o id '.$id;
+            }
+            else if (strpos($message, "Foreign key violation") !==false){
+                $message = 'Project não pode ser apagado pois existe um ou mais projects vinculados a ele!';
+            }
             return [
                 'error'=>true,
-                'message'=>strpos($e->getMessage(), 'No query results for model') !== false ? 'Não existe project cadatrado para o id '.$id : $e->getMessage()
+                'message'=> $message
             ];
         }
     }
 
     function addMember($id, $memberId){
         try {
-            if(!is_int($memberId) || $memberId < 1)
+            if(intval ($memberId) < 1)
                 return ['error'=>true, 'message'=>'Campo memberId deve ser um número interiro positivo!'];
 
             $member = $this->userRepository->find($memberId);
-            $this->repository->with('membros')->find($id)->membros()->attach($member);
+            $this->repository->with('membros')->skipPresenter()->find($id)->membros()->attach($member);
             return ['success'=>true, 'message'=>'Membro adicionado com sucesso!'];
         } catch (\Exception $e) {
             return [
@@ -129,11 +136,11 @@ class ProjectService
 
     function removeMember($id, $memberId){
         try {
-            if(!is_int($memberId) || $memberId < 1)
+            if(intval ($memberId) < 1)
                 return ['error'=>true, 'message'=>'Campo memberId deve ser um número interiro positivo!'];
 
             $member = $this->userRepository->find($memberId);
-            $this->repository->with('membros')->find($id)->membros()->detach($member);
+            $this->repository->with('membros')->skipPresenter()->find($id)->membros()->detach($member);
 
             return ['success'=>true, 'message'=>'Membro removido com sucesso!'];
         }catch (ModelNotFoundException $e) {
@@ -148,7 +155,7 @@ class ProjectService
 
     function showMembers($id){
         try {
-            return $this->repository->with('membros')->find($id)->membros;
+            return $this->repository->with('membros')->skipPresenter()->find($id)->membros;
         }catch (ModelNotFoundException $e) {
             return ['error'=>true, 'message'=>'Project não encontrado.'];
         } catch (\Exception $e) {

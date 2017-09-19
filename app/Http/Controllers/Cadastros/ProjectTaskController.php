@@ -23,20 +23,20 @@ class ProjectTaskController extends Controller
         return $this->service->showAll($projectId);
     }
 
-    function show($projectId, $id){
-        return $this->service->show($projectId, $id);
+    function show($projectId, $taskId){
+        return $this->service->show($projectId, $taskId);
     }
 
     function create(Request $request){
         return $this->service->create($request->all());
     }
 
-    function update(Request $request, $projectId, $id){
-        return $this->service->update($request->all(), $id);
+    function update(Request $request, $projectId, $taskId){
+        return $this->service->update($request->all(), $taskId);
     }
 
-    function delete($projectId, $id){
-        return $this->service->delete($id);
+    function destroy($projectId, $taskId){
+        return $this->service->delete($taskId);
     }
 
 }
