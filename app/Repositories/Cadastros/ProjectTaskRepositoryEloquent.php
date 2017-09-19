@@ -9,6 +9,7 @@
 namespace CodeProject\Repositories\Cadastros;
 
 
+use CodeProject\Presenters\ProjectTaskPresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use CodeProject\Entities\Cadastros\ProjectTask;
 
@@ -16,5 +17,9 @@ class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTas
 {
     public function model(){
         return ProjectTask::class;
+    }
+
+    function presenter() {
+        return ProjectTaskPresenter::class;
     }
 }

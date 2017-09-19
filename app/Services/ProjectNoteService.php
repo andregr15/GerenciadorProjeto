@@ -74,7 +74,7 @@ class ProjectNoteService
      function update(array $data, $id){
         try{
             $this->validator->with($data)->passesOrFail();
-            $this->repository->find($id)->fill($data)->save();
+            $this->repository->skipPresenter()->find($id)->fill($data)->save();
             return ['success'=>true, 'message' => 'Nota atualizada com sucesso!'];
         } catch(ValidatorException $e){
             return [
@@ -91,7 +91,7 @@ class ProjectNoteService
 
     function delete($id){
         try{
-            $this->repository->find($id)->delete();
+            $this->repository->skipPresenter()->find($id)->delete();
             return ['success'=>true, 'message'=>'Nota deletada com sucesso!'];
         }catch(\Exception $e){
             return [

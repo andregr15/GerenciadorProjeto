@@ -9,12 +9,17 @@
 namespace CodeProject\Repositories\Cadastros;
 
 
+use CodeProject\Presenters\ProjectNotePresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use CodeProject\Entities\Cadastros\ProjectNote;
 
 class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNoteRepository
 {
-    public function model(){
+    public function model() {
         return ProjectNote::class;
+    }
+
+    function presenter() {
+        return ProjectNotePresenter::class;
     }
 }

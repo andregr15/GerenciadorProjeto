@@ -74,7 +74,7 @@ class ProjectTaskService
     function update(array $data, $id){
         try{
             $this->validator->with($data)->passesOrFail();
-            $this->repository->find($id)->fill($data)->save();
+            $this->repository->skipPresenter()->find($id)->fill($data)->save();
             return ['success'=>true, 'message' => 'Tarefa atualizada com sucesso!'];
         } catch(ValidatorException $e){
             return [
@@ -91,7 +91,7 @@ class ProjectTaskService
 
     function delete($id){
         try{
-            $this->repository->find($id)->delete();
+            $this->repository->skipPresenter()->find($id)->delete();
             return ['success'=>true, 'message'=>'Tarefa deletada com sucesso!'];
         }catch(\Exception $e){
             return [
