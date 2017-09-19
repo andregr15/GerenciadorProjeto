@@ -52,7 +52,7 @@ class ClientService
 
     public function delete($id){
         try{
-            $this->repository->find($id)->delete();
+            $this->repository->skipPresenter()->find($id)->delete();
             return ['success' => 'true', 'message'=>'Client deletado com sucesso!'];
         }catch (QueryException $e) {
             return [
@@ -105,7 +105,7 @@ class ClientService
     public function update(array $data, $id){
         try{
             $this->validator->with($data)->passesOrFail();
-            $this->repository->find($id)->fill($data)->save();
+            $this->repository->skipPresenter()->find($id)->fill($data)->save();
             return ['sucess'=>true, 'message'=>'Client atualizado com sucesso!'];
         }
         catch(ValidatorException $e){
